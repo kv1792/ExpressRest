@@ -1,0 +1,26 @@
+{
+  "name": "expressrest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kv1792/ExpressRest.git"
+  },
+  "author": "Kaustubh Vadher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kv1792/ExpressRest/issues"
+  },
+  "homepage": "https://github.com/kv1792/ExpressRest#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "joi": "^13.4.0"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.5"
+  }
+}
