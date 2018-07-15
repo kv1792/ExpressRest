@@ -1,9 +1,17 @@
 const express = require('express');
+const morgan = require('morgan');
+const helmet = require('helmet');
 const validateName = require('./nameValidation');
+const logger = require('./middlewares/logger');
+
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json()); // Makes the req body in json format and sets to req.body
+app.use(express.static('public')); // This middleware is used to serve request for static files eg: images, txt files
+app.use(helmet()); // This middleware is used to add headers to the req
+app.use(morgan('tiny')); //avoid using for production environments
+app.use(logger); // custom built middleware for the purpose of logging for every request
 
 const courses = [{
     id: 1,
@@ -37,7 +45,9 @@ app.get('/api/courses/:id', (req, resp) => {
 app.post('/api/courses', (req, resp) => {
 
     const result = validateName(req.body);
-    const {error} = result;
+    const {
+        error
+    } = result;
 
     if (error) {
         resp.status(400).send(validatedBody.error.details[0].message);
@@ -57,7 +67,9 @@ app.put('/api/courses/:id', (req, resp) => {
     if (course) {
 
         const result = validateName(req.body);
-        const {error} = result;
+        const {
+            error
+        } = result;
 
         if (error) {
             resp.status(400).send(`Bad Request : ${error}`);
@@ -73,13 +85,14 @@ app.put('/api/courses/:id', (req, resp) => {
 });
 
 
-app.delete('/api/courses/:id', (req,resp)=>{
+app.delete('/api/courses/:id', (req, resp) => {
     const course = courses.find(c => c.id === parseInt(req.params.id));
-    if(!course){resp.status(404).send('The course with the given ID is not found');
-    }else{
-    courses.splice(courses.indexOf(course),1);
+    if (!course) {
+        resp.status(404).send('The course with the given ID is not found');
+    } else {
+        courses.splice(courses.indexOf(course), 1);
 
-    resp.send(courses);
+        resp.send(courses);
     }
 });
 
